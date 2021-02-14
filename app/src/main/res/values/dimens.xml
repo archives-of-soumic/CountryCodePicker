@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="ridmik_account_padding_regular">15dp</dimen>
+    <dimen name="ridmik_account_padding_list">8dp</dimen>
+    <dimen name="mySmallTextSize">14sp</dimen>
+    <dimen name="myPrimaryTextSize">16sp</dimen>
+    <dimen name="ccp_default_margin">40dp</dimen>
+  <dimen name="ccp_signin_row_height">60dp</dimen>
+</resources>
