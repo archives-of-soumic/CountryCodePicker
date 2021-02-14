@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -27,6 +29,7 @@ public class CountryCodePickerFragment extends Fragment {
   private Boolean isUserTyping = true;
   private CountryCodeFlagAdapter mCountryFlagAdapter;
   public EditText mPhoneEditText;
+  private TextView next;
 
 
   AdapterView.OnItemSelectedListener adapterViewOnItemSelectedListener = new AdapterView.OnItemSelectedListener() {
@@ -117,5 +120,40 @@ public class CountryCodePickerFragment extends Fragment {
     int somePosition = mCountryFlagAdapter.getItemPositionWithSimCountryIso(simCountryIso);
     mPhoneEditText.setText(mCountryFlagAdapter.getItem(somePosition).countryCode);
     countrySpinner.setSelection(somePosition);
+
+
+    // validation
+    next = fragmentRootView.findViewById(R.id.next);
+    next.setOnClickListener(v -> {
+      if(isUserInputValid()) {
+        Toast.makeText(requireActivity(), "User input is ok", Toast.LENGTH_SHORT).show();
+      }else{
+        Toast.makeText(requireActivity(), "User input is invalid!", Toast.LENGTH_SHORT).show();
+      }
+    });
+  }
+
+  private Boolean isUserInputValid() {
+    String tempNumber = mPhoneEditText.getText().toString();
+    String prefixCountryCode = "";
+    if (tempNumber.length() >= 3) {
+      prefixCountryCode = tempNumber.substring(0, 3);
+    }
+    if (prefixCountryCode.equals("880")) {
+      if (mPhoneEditText.getText().length() != 13) {
+        mPhoneEditText.setCompoundDrawablesWithIntrinsicBounds
+            (0, 0, R.drawable.ccp_ic_error_outline_black_24dp, 0);
+        //Found this soln in stackoverflow. IDK why this is not voted as the accepted soln :/
+        return false;
+      }
+    }
+/*    if (isUsingPassword) {
+      if (mPasswordEditText.getText().length() == 0) {
+        mPasswordEditText.setCompoundDrawablesWithIntrinsicBounds
+            (0, 0, R.drawable.ridmik_account_ic_error_outline_black_24dp, 0);
+        return false;
+      }
+    }*/
+    return true;
   }
 }
